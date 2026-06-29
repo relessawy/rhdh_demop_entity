@@ -4,13 +4,12 @@ metadata:
   name: adaptive-space-team
   description: "Adaptive Space — Digital Payments Engineering Team"
   annotations:
-    backstage.io/managed-by-location: "url:https://bitbucket.westpac.com.au/projects/PLAT/repos/catalog-entities/browse/teams/adaptive-space-team.yaml"
+    backstage.io/managed-by-location: "url:https://github.com/relessawy/rhdh_demop_entity/blob/main/catalog-info.yaml"
 spec:
   type: team
   profile:
     displayName: "Adaptive Space Team"
     email: adaptive-space-team@westpac.com.au
-  parent: digital-banking
   children: []
 ---
 apiVersion: backstage.io/v1alpha1
@@ -18,6 +17,8 @@ kind: System
 metadata:
   name: payments-platform
   description: "NPP and real-time payments platform owned by the Adaptive Space team"
+  annotations:
+    backstage.io/managed-by-location: "url:https://github.com/relessawy/rhdh_demop_entity/blob/main/catalog-info.yaml"
   tags:
     - westpac
     - payments
@@ -31,7 +32,7 @@ metadata:
   name: westpac-postgres-payments-dev
   description: "PostgreSQL database for the Payments Platform — development environment"
   annotations:
-    backstage.io/managed-by-location: "url:https://bitbucket.westpac.com.au/projects/PLAT/repos/catalog-entities/browse/resources/westpac-postgres-payments-dev.yaml"
+    backstage.io/managed-by-location: "url:https://github.com/relessawy/rhdh_demop_entity/blob/main/catalog-info.yaml"
   tags:
     - postgres
     - database
@@ -48,7 +49,7 @@ metadata:
   name: westpac-amq-payments-dev
   description: "Red Hat AMQ message broker for the Payments Platform — handles async payment event streaming"
   annotations:
-    backstage.io/managed-by-location: "url:https://bitbucket.westpac.com.au/projects/PLAT/repos/catalog-entities/browse/resources/westpac-amq-payments-dev.yaml"
+    backstage.io/managed-by-location: "url:https://github.com/relessawy/rhdh_demop_entity/blob/main/catalog-info.yaml"
   tags:
     - amq
     - messaging
@@ -65,7 +66,7 @@ metadata:
   name: npp-transfer-api
   description: "NPP Payment Initiation API — initiates real-time fund transfers via the New Payments Platform"
   annotations:
-    backstage.io/managed-by-location: "url:https://bitbucket.westpac.com.au/projects/PLAT/repos/catalog-entities/browse/apis/npp-transfer-api.yaml"
+    backstage.io/managed-by-location: "url:https://github.com/relessawy/rhdh_demop_entity/blob/main/catalog-info.yaml"
   tags:
     - payments
     - npp
@@ -119,7 +120,7 @@ metadata:
   name: payments-backend-service
   description: "Core payments processing service — handles NPP transfer initiation, validation and settlement"
   annotations:
-    backstage.io/managed-by-location: "url:https://bitbucket.westpac.com.au/projects/PLAT/repos/catalog-entities/browse/components/payments-backend-service.yaml"
+    backstage.io/managed-by-location: "url:https://github.com/relessawy/rhdh_demop_entity/blob/main/catalog-info.yaml"
   tags:
     - java
     - payments
@@ -130,8 +131,8 @@ spec:
   owner: adaptive-space-team
   system: payments-platform
   dependsOn:
-    - resource:westpac-postgres-payments-dev
-    - resource:westpac-amq-payments-dev
+    - resource:default/westpac-postgres-payments-dev
+    - resource:default/westpac-amq-payments-dev
   providesApis:
     - npp-transfer-api
 ---
@@ -141,7 +142,7 @@ metadata:
   name: payments-frontend-app
   description: "Digital banking frontend — customer-facing payments UI consuming the NPP Transfer API"
   annotations:
-    backstage.io/managed-by-location: "url:https://bitbucket.westpac.com.au/projects/PLAT/repos/catalog-entities/browse/components/payments-frontend-app.yaml"
+    backstage.io/managed-by-location: "url:https://github.com/relessawy/rhdh_demop_entity/blob/main/catalog-info.yaml"
   tags:
     - react
     - frontend
