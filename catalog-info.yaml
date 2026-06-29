@@ -1,3 +1,6 @@
+Here's the complete updated catalog-info.yaml:
+
+```yaml
 apiVersion: backstage.io/v1alpha1
 kind: Group
 metadata:
@@ -38,6 +41,23 @@ metadata:
     - dev
 spec:
   type: database
+  owner: adaptive-space-team
+  lifecycle: development
+  system: payments-platform
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: westpac-amq-payments-dev
+  description: "Red Hat AMQ message broker for the Payments Platform — handles async payment event streaming"
+  annotations:
+    backstage.io/managed-by-location: "url:https://bitbucket.westpac.com.au/projects/PLAT/repos/catalog-entities/browse/resources/westpac-amq-payments-dev.yaml"
+  tags:
+    - amq
+    - messaging
+    - dev
+spec:
+  type: message-broker
   owner: adaptive-space-team
   lifecycle: development
   system: payments-platform
@@ -114,6 +134,7 @@ spec:
   system: payments-platform
   dependsOn:
     - resource:westpac-postgres-payments-dev
+    - resource:westpac-amq-payments-dev
   providesApis:
     - npp-transfer-api
 ---
@@ -135,3 +156,4 @@ spec:
   system: payments-platform
   consumesApis:
     - npp-transfer-api
+```
