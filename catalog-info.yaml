@@ -1,6 +1,3 @@
-Here's the complete updated catalog-info.yaml:
-
-```yaml
 apiVersion: backstage.io/v1alpha1
 kind: Group
 metadata:
@@ -156,4 +153,3 @@ spec:
   system: payments-platform
   consumesApis:
     - npp-transfer-api
-```
