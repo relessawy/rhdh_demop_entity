@@ -2,51 +2,51 @@ apiVersion: backstage.io/v1alpha1
 kind: Group
 metadata:
   name: dev-team
-  description: "Dev Team"
+  description: "Adaptive Space Team"
   annotations:
     backstage.io/managed-by-location: "url:https://github.com/my-org/my-repo/blob/master/dev-team.yaml"
 spec:
   type: team
   profile:
-    displayName: "Dev Team"
-    email: dev-team@globexcorp.com
+    displayName: "Adaptive Space Team"
+    email: adaptive-space-team@westpac.com.au
   parent: my-org
   children: []
 ---
 apiVersion: backstage.io/v1alpha1
 kind: System
 metadata:
-  name: globex-system
+  name: digital-banking
   tags:
-    - globexcorp
+    - westpac
 spec:
-  owner: dev-team  
+  owner: adaptive_space_team 
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Resource
 metadata:
-  name: globex-database
-  description: "Globex Database"
+  name: pgs-adaptive-space-01
+  description: "pgs-adaptive-space-01"
   annotations:
     backstage.io/managed-by-location: "url:https://github.com/my-org/my-repo/blob/master/database.yaml"
 spec:
   type: database
   owner: dev-team
   lifecycle: production
-  system: globex-system
+  system: digital-banking
 ---
 apiVersion: backstage.io/v1alpha1
 kind: API
 metadata:
-  name: globex-api
-  description: "Globex API"
+  name: npp-transfer-api
+  description: "npp-transfer-api"
   annotations:
     backstage.io/managed-by-location: "url:https://github.com/my-org/my-repo/blob/master/my-grpc-api.yaml"
 spec:
   type: grpc
   lifecycle: production
   owner: dev-team
-  system: globex-system
+  system: digital-banking
   definition: |
     syntax = "proto3";
     package myorg.mygrpcapi;
@@ -63,7 +63,7 @@ spec:
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: globex-backend
+  name: digital-banking-backend
   description: "Globex Backend Service"
   annotations:
     backstage.io/managed-by-location: "url:https://github.com/my-org/my-repo/blob/master/my-backend.yaml"
@@ -71,16 +71,16 @@ spec:
   type: service
   lifecycle: production
   owner: dev-team
-  system: globex-system
+  system: digital-banking
   dependsOn:
     - resource:globex-database
   providesApis:
-    - globex-api
+    - npp-transfer-api
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: globex-frontend
+  name: digital-banking-frontend
   description: "Globex Frontend"
   annotations:
     backstage.io/managed-by-location: "url:https://github.com/my-org/my-repo/blob/master/my-frontend.yaml"
@@ -88,6 +88,6 @@ spec:
   type: service
   lifecycle: production
   owner: dev-team
-  system: globex-system
+  system: digital-banking
   consumesApis:
-    - globex-api
+    - npp-transfer-api
