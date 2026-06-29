@@ -1,93 +1,137 @@
 apiVersion: backstage.io/v1alpha1
 kind: Group
 metadata:
-  name: dev-team
-  description: "Adaptive Space Team"
+  name: adaptive-space-team
+  description: "Adaptive Space — Digital Payments Engineering Team"
   annotations:
-    backstage.io/managed-by-location: "url:https://github.com/my-org/my-repo/blob/master/dev-team.yaml"
+    backstage.io/managed-by-location: "url:https://bitbucket.westpac.com.au/projects/PLAT/repos/catalog-entities/browse/teams/adaptive-space-team.yaml"
 spec:
   type: team
   profile:
     displayName: "Adaptive Space Team"
     email: adaptive-space-team@westpac.com.au
-  parent: my-org
+  parent: digital-banking
   children: []
 ---
 apiVersion: backstage.io/v1alpha1
 kind: System
 metadata:
-  name: digital-banking
+  name: payments-platform
+  description: "NPP and real-time payments platform owned by the Adaptive Space team"
   tags:
     - westpac
+    - payments
+    - npp
 spec:
-  owner: adaptive_space_team 
+  owner: adaptive-space-team
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Resource
 metadata:
-  name: pgs-adaptive-space-01
-  description: "pgs-adaptive-space-01"
+  name: westpac-postgres-payments-dev
+  description: "PostgreSQL database for the Payments Platform — development environment"
   annotations:
-    backstage.io/managed-by-location: "url:https://github.com/my-org/my-repo/blob/master/database.yaml"
+    backstage.io/managed-by-location: "url:https://bitbucket.westpac.com.au/projects/PLAT/repos/catalog-entities/browse/resources/westpac-postgres-payments-dev.yaml"
+  tags:
+    - postgres
+    - database
+    - dev
 spec:
   type: database
-  owner: dev-team
-  lifecycle: production
-  system: digital-banking
+  owner: adaptive-space-team
+  lifecycle: development
+  system: payments-platform
 ---
 apiVersion: backstage.io/v1alpha1
 kind: API
 metadata:
   name: npp-transfer-api
-  description: "npp-transfer-api"
+  description: "NPP Payment Initiation API — initiates real-time fund transfers via the New Payments Platform"
   annotations:
-    backstage.io/managed-by-location: "url:https://github.com/my-org/my-repo/blob/master/my-grpc-api.yaml"
+    backstage.io/managed-by-location: "url:https://bitbucket.westpac.com.au/projects/PLAT/repos/catalog-entities/browse/apis/npp-transfer-api.yaml"
+  tags:
+    - payments
+    - npp
+    - rest
 spec:
-  type: grpc
+  type: openapi
   lifecycle: production
-  owner: dev-team
-  system: digital-banking
+  owner: adaptive-space-team
+  system: payments-platform
   definition: |
-    syntax = "proto3";
-    package myorg.mygrpcapi;
-    message MyRequest {
-      string query = 1;
-    }
-    message MyResponse {
-      string result = 1;
-    }
-    service MyGrpcApi {
-      rpc MyMethod (MyRequest) returns (MyResponse);
-    }
+    openapi: "3.0.0"
+    info:
+      title: NPP Transfer API
+      version: "1.0.0"
+      description: Initiates real-time fund transfers via the New Payments Platform
+    paths:
+      /v1/payments/initiate:
+        post:
+          summary: Initiate an NPP payment
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    sourceAccountId:
+                      type: string
+                    destinationBsb:
+                      type: string
+                    destinationAccount:
+                      type: string
+                    amount:
+                      type: number
+                    currency:
+                      type: string
+                      example: AUD
+                    paymentReference:
+                      type: string
+          responses:
+            "202":
+              description: Payment accepted and queued for processing
+            "400":
+              description: Invalid payment request
+            "503":
+              description: NPP service unavailable
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: digital-banking-backend
-  description: "Globex Backend Service"
+  name: payments-backend-service
+  description: "Core payments processing service — handles NPP transfer initiation, validation and settlement"
   annotations:
-    backstage.io/managed-by-location: "url:https://github.com/my-org/my-repo/blob/master/my-backend.yaml"
+    backstage.io/managed-by-location: "url:https://bitbucket.westpac.com.au/projects/PLAT/repos/catalog-entities/browse/components/payments-backend-service.yaml"
+  tags:
+    - java
+    - payments
+    - npp
 spec:
   type: service
   lifecycle: production
-  owner: dev-team
-  system: digital-banking
+  owner: adaptive-space-team
+  system: payments-platform
   dependsOn:
-    - resource:globex-database
+    - resource:westpac-postgres-payments-dev
   providesApis:
     - npp-transfer-api
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: digital-banking-frontend
-  description: "Globex Frontend"
+  name: payments-frontend-app
+  description: "Digital banking frontend — customer-facing payments UI consuming the NPP Transfer API"
   annotations:
-    backstage.io/managed-by-location: "url:https://github.com/my-org/my-repo/blob/master/my-frontend.yaml"
+    backstage.io/managed-by-location: "url:https://bitbucket.westpac.com.au/projects/PLAT/repos/catalog-entities/browse/components/payments-frontend-app.yaml"
+  tags:
+    - react
+    - frontend
+    - payments
 spec:
-  type: service
+  type: website
   lifecycle: production
-  owner: dev-team
-  system: digital-banking
+  owner: adaptive-space-team
+  system: payments-platform
   consumesApis:
     - npp-transfer-api
