@@ -131,8 +131,8 @@ spec:
   owner: adaptive-space-team
   system: payments-platform
   dependsOn:
-    - resource:default/westpac-postgres-payments-dev
-    - resource:default/westpac-amq-payments-dev
+    - resource:westpac-postgres-payments-dev
+    - resource:westpac-amq-payments-dev
   providesApis:
     - npp-transfer-api
 ---
